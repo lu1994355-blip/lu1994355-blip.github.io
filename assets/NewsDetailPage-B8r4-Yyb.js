@@ -1,4 +1,4 @@
-import{j as e}from"./vendor-motion-xEM_j57B.js";import{u as n,a as o,N as l,F as c,S as i}from"./index-V6ukTSv3.js";import{f as d,L as p}from"./vendor-react-C9hsovHu.js";const r={1:{date:"2025.09.15",title:"鹿児島ダッシュキャンプゲスト登壇",category:"EVENT",content:`
+import{j as e}from"./vendor-motion-xEM_j57B.js";import{u as n,a as o,N as l,F as c,S as i}from"./index-DxA50YZO.js";import{f as d,L as p}from"./vendor-react-C9hsovHu.js";const r={1:{date:"2025.09.15",title:"鹿児島ダッシュキャンプゲスト登壇",category:"EVENT",content:`
          <p>鹿児島で開催されたスタートアップイベント「DASH CAMP」に弊社代表の清水が登壇しました。</p>
          <p>「AI時代の経営戦略」をテーマに、これからの企業がどのようにAIを活用し、競争優位性を築いていくべきかについて講演を行いました。</p>
          <h3>AIは「ツール」ではなく「パートナー」</h3>

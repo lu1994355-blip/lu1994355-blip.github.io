@@ -1,0 +1,71 @@
+/*
+ * The Typekit service used to deliver this font or fonts for use on websites
+ * is provided by Adobe and is subject to these Terms of Use
+ * http://www.adobe.com/products/eulas/tou_typekit. For font license
+ * information, see the list below.
+ *
+ * sofia-pro:
+ *   - http://typekit.com/eulas/00000000000000007735f996
+ *   - http://typekit.com/eulas/00000000000000007735f999
+ *   - http://typekit.com/eulas/00000000000000007735f995
+ *   - http://typekit.com/eulas/00000000000000007735f990
+ *   - http://typekit.com/eulas/00000000000000007735f992
+ *   - http://typekit.com/eulas/00000000000000007735f98d
+ *   - http://typekit.com/eulas/00000000000000007735f99a
+ *   - http://typekit.com/eulas/00000000000000007735f997
+ *
+ * © 2009-2026 Adobe Systems Incorporated. All Rights Reserved.
+ */
+/*{"last_published":"2024-05-18 07:22:59 UTC"}*/
+
+/* Removed external Adobe @import (p.typekit.net): fonts are self-hosted below in ./typekit/, so the external CSS only added a render-path round trip with no visual effect. */
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk18.woff2") format("woff2"),url("./typekit/tk17.woff2") format("woff"),url("./typekit/tk16.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:900;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk15.woff2") format("woff2"),url("./typekit/tk14.woff2") format("woff"),url("./typekit/tk13.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:800;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk24.woff2") format("woff2"),url("./typekit/tk23.woff2") format("woff"),url("./typekit/tk22.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:200;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk12.woff2") format("woff2"),url("./typekit/tk11.woff2") format("woff"),url("./typekit/tk10.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:300;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk3.woff2") format("woff2"),url("./typekit/tk2.woff2") format("woff"),url("./typekit/tk1.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:500;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk21.woff2") format("woff2"),url("./typekit/tk20.woff2") format("woff"),url("./typekit/tk19.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk6.woff2") format("woff2"),url("./typekit/tk5.woff2") format("woff"),url("./typekit/tk4.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:700;font-stretch:normal;
+}
+
+@font-face {
+font-family:"sofia-pro";
+src:url("./typekit/tk9.woff2") format("woff2"),url("./typekit/tk8.woff2") format("woff"),url("./typekit/tk7.woff2") format("opentype");
+font-display:auto;font-style:normal;font-weight:100;font-stretch:normal;
+}
+
+.tk-sofia-pro { font-family: "sofia-pro",sans-serif; }

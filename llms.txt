@@ -1,0 +1,37 @@
+# 株式会社ZETTAi (ZETTAI INC.)
+
+> AIコンサルティング・DX支援を提供する日本のテクノロジー企業
+
+## 会社概要
+
+株���会社ZETTAiは、AI技術を活用したコンサルティング・開発支援を行う企業です。最短1週間からの高速AI開発体制で、Web・iOS・AIプロダクトの企画・開発・運用をワンストップで提供しています。
+
+## 事業内容
+
+- AIコンサルティング: 企業のAI導入戦略策定から実装支援まで
+- Web開発: React/TypeScript/Node.jsを中心としたモダンWeb開発
+- iOS開発: Swift/SwiftUIによるネイティブiOSアプリ開発
+- DX支援: 業務プロセスのデジタル化・自動化支援
+- 海外展開支援: アジア圏を中心とした海外進出サポート
+
+## 自社プロダクト
+
+- LP自動生成ツール
+- AI議事録・通話ログ分析
+- AI勤怠管理システム
+- AIニュースアプリ（iOS）
+
+## 主要ページ
+
+- [トップページ](https://zettai.co.jp/)
+- [会社概要](https://zettai.co.jp/about)
+- [制作��績](https://zettai.co.jp/works)
+- [プロダクト](https://zettai.co.jp/products)
+- [採用情��](https://zettai.co.jp/careers)
+- [よくあるご質問](https://zettai.co.jp/faq)
+- [お問い合わせ](https://zettai.co.jp/contact)
+
+## お問い合わせ
+
+初回ヒアリングは無料です。AIコンサルティング・開発のご相談はお問い合わせフォームからお気軽にどうぞ。
+https://zettai.co.jp/contact

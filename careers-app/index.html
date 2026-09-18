@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FV（横スクロール帯）の1枚目を最優先で先読みし、表示直後に絵が出るようにする -->
+    <link rel="preload" as="image" href="./assets/img/fv-1.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="./assets/img/fv-2.webp">
+    <link rel="stylesheet" href="./assets/css/ress.css">
+    <link rel="stylesheet" href="./assets/lib/slick/slick.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/custom.css">
+    <!-- 非クリティカルCSSは描画をブロックしないよう遅延読み込み（フォントは font-display:swap でフォールバック表示→差し替え、アニメ/装飾はファーストビュー後に効けば十分） -->
+    <link rel="stylesheet" href="./fonts/zenkaku.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./fonts/typekit.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./vendor/animate.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="./assets/lib/slick/slick-theme.css" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="./fonts/zenkaku.css">
+      <link rel="stylesheet" href="./fonts/typekit.css">
+      <link rel="stylesheet" href="./vendor/animate.min.css">
+      <link rel="stylesheet" href="./assets/lib/slick/slick-theme.css">
+    </noscript>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/vnd.microsoft.icon">
+    <link rel="icon" href="./favicon.ico" type="image/vnd.microsoft.icon">
+    <meta name="format-detection" content="telephone=no">
+    <title>採用情報 | 株式会社ZETTAI</title>
+    <meta name="description" content="株式会社ZETTAIは、AIを使いこなす力で企業の業務を再設計するAIカンパニーです。Claude Codeを中核に、AI活用コンサルティングから業務アプリ・Webサイトの受託開発まで。AIや開発の経験は問いません。自ら考え、試し、学び続けられる環境で、最新のAIと共に進化しながら、まだ無い価値を生み出す仲間を募集しています。" />
+    <meta property="og:url" content="https://calls-net.co.jp/recruit">
+    <meta property="og:title" content="採用情報 | 株式会社ZETTAI" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="株式会社ZETTAIは、AIを使いこなす力で企業の業務を再設計するAIカンパニーです。Claude Codeを中核に、AI活用コンサルティングから業務アプリ・Webサイトの受託開発まで。AIや開発の経験は問いません。自ら考え、試し、学び続けられる環境で、最新のAIと共に進化しながら、まだ無い価値を生み出す仲間を募集しています。" />
+    <meta property="og:image" content="https://calls-net.co.jp/ogp-img.jpg" />
+    <meta property="og:site_name" content="株式会社ZETTAI" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="index,follow" />
+  <script type="module" crossorigin src="./assets/index-CpbiLOiZ.js"></script>
+</head>
+
+<body>
+    <header class="careers-header" aria-label="採用ページヘッダー">
+        <a class="careers-header__brand" href="#recruit-fv" aria-label="採用ページトップへ">
+            <span class="careers-header__name">ZETTAI</span>
+            <span class="careers-header__label">RECRUIT</span>
+        </a>
+        <a class="careers-header__home" href="/" target="_top" aria-label="ZETTAI公式サイトのホームに戻る">
+            <span class="careers-header__home-arrow" aria-hidden="true">←</span>
+            <span>HOME</span>
+        </a>
+        <nav class="careers-header__nav" aria-label="採用ページ内ナビゲーション">
+            <a href="#recruit-job">JOB</a>
+            <a href="#recruit-data">DATA</a>
+            <a href="#interview">INTERVIEW</a>
+            <a href="#flow">FLOW</a>
+            <a href="#require">REQUIREMENTS</a>
+        </nav>
+        <a class="careers-header__cta" href="#contact">CONTACT</a>
+    </header>
+    <div id="root"></div>
+</body>
+
+</html>

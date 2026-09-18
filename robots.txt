@@ -1,0 +1,35 @@
+# robots.txt for zettai.co.jp
+
+# 一般的なクローラー（Google, Bing等）
+User-agent: *
+Allow: /
+Disallow: /test
+
+# AI検索エンジン（検索結果への引用を許可）
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# AI学習用クローラー（トレーニングデータとしての利用をブロック）
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# サイトマップ
+Sitemap: https://zettai.co.jp/sitemap.xml

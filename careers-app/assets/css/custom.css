@@ -1,0 +1,1292 @@
+/* ===========================================================
+   ZETTAI カスタム上書き（元 style.css には手を入れない）
+   FV: 単一背景画像のスクロール → 個別画像5枚の横スクロール帯へ
+   =========================================================== */
+
+/* 元の背景画像スライドを無効化し、帯を載せるコンテナにする */
+.recruit-fv {
+  background: #000 !important;
+  animation: none !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景レイヤー（タイトルの後ろ） */
+.recruit-fv__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* 横に流れるトラック（画像2周ぶん）
+   プリロードした1枚目が用意できてから帯ごとふわっと出す。
+   読み込み途中のガタつきを見せず「再生されてから表示」する演出。 */
+.recruit-fv__track {
+  display: flex;
+  height: 100%;
+  width: max-content;
+  animation: fv-scroll 120s linear infinite, fv-reveal 0.8s ease-out both;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+@keyframes fv-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.recruit-fv__photo {
+  height: 100%;
+  width: auto;
+  display: block;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 白文字を読みやすくする暗色オーバーレイ */
+.recruit-fv__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* タイトルは最前面へ */
+.recruit-fv__wrap {
+  position: relative;
+  z-index: 2;
+}
+
+/* 固定ヘッダー ------------------------------------------------------------ */
+.careers-header {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  z-index: 20;
+  box-sizing: border-box;
+  width: min(1180px, calc(100% - 48px));
+  min-height: 64px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 10px 12px 10px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.careers-header__brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 0 0 auto;
+  color: #17171A;
+  line-height: 1;
+}
+.careers-header__name {
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+.careers-header__label {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #9699A2;
+}
+/* 本サイトのホームへ戻る（iframe の外＝親ごと遷移する。モバイルでも常時表示） */
+.careers-header__home {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  color: #17171A;
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.careers-header__home:hover {
+  color: #E60000;
+}
+.careers-header__home-arrow {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.careers-header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  flex: 1 1 auto;
+}
+.careers-header__nav a {
+  color: #17171A;
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.careers-header__nav a:hover {
+  color: #E60000;
+}
+.careers-header__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 132px;
+  min-height: 44px;
+  padding: 0 24px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  box-shadow: 0 10px 24px rgba(152, 25, 235, 0.25);
+}
+html {
+  scroll-padding-top: 100px;
+}
+
+/* 画像2周ぶんを並べているので -50% でシームレスにループ */
+@keyframes fv-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recruit-fv__track {
+    animation: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .careers-header {
+    gap: 18px;
+  }
+  .careers-header__nav {
+    gap: 16px;
+  }
+  .careers-header__nav a {
+    font-size: 1.05rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .careers-header {
+    top: 14px;
+    width: calc(100% - 28px);
+    min-height: 56px;
+    padding: 8px 8px 8px 18px;
+    gap: 10px;
+    /* 動くFV帯の上でのブラー再計算はモバイルで重い。blurを切り、
+       背景を少し不透明にして読みやすさを担保する */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.94);
+  }
+  .careers-header__name {
+    font-size: 2rem;
+  }
+  .careers-header__label {
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+  }
+  .careers-header__nav {
+    display: none;
+  }
+  .careers-header__home {
+    font-size: 1.05rem;
+    gap: 4px;
+  }
+  .careers-header__home-arrow {
+    font-size: 1.2rem;
+  }
+  .careers-header__cta {
+    min-width: 108px;
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 1.05rem;
+  }
+  html {
+    scroll-padding-top: 78px;
+  }
+}
+
+/* 会話アバターの Lottie（元 .recruit-conversation__img の幅を継承＋正方形） */
+.recruit-conversation__lottie {
+  aspect-ratio: 1 / 1;
+}
+.recruit-conversation__lottie svg {
+  display: block;
+}
+
+/* お問い合わせ（メールページ誘導）ボタン */
+.contact__mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 14px 40px;
+  border: 2px solid #fff;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 1.7rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.contact__mail svg {
+  width: 22px;
+  height: 22px;
+}
+.contact__mail:hover {
+  background: #fff;
+  color: #0273b6;
+}
+@media screen and (max-width: 768px) {
+  .contact__mail {
+    font-size: 1.5rem;
+    padding: 12px 28px;
+  }
+  .contact__mail svg {
+    width: 19px;
+    height: 19px;
+  }
+}
+
+/* INTERVIEW 背景を「Calls」ロゴ透かし → 「ZETTAI」透かしへ差し替え */
+.interview {
+  background-image: url(../img/interview-back-zettai.jpg) !important;
+}
+@media screen and (max-width: 1024px) {
+  .interview {
+    background-image: url(../img/interview-back-zettai-sp.jpg) !important;
+  }
+}
+
+/* =========================================================================
+   ZETTAI 本体サイトと統一したフッター（旧 .footer__* を置き換え）
+   ========================================================================= */
+.zfooter {
+  width: 100%;
+  background: #fff;
+  color: #050505;
+  border-top: 1px solid rgba(23, 23, 26, 0.1);
+  padding: 96px 64px;
+  box-sizing: border-box;
+}
+.zfooter__wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+}
+.zfooter__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.zfooter__logo {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #050505;
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+.zfooter__logo:hover {
+  opacity: 0.7;
+}
+.zfooter__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  opacity: 0.6;
+}
+.zfooter__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 64px;
+}
+.zfooter__col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.zfooter__col a {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #050505;
+  transition: color 0.2s ease;
+}
+.zfooter__col a:hover {
+  color: #E60000;
+}
+
+@media screen and (max-width: 768px) {
+  .zfooter {
+    padding: 64px 20px;
+  }
+  .zfooter__wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+  }
+  .zfooter__logo {
+    font-size: 3rem;
+  }
+  .zfooter__links {
+    gap: 32px;
+  }
+}
+
+/* =========================================================================
+   FV タイトルの改行を整える
+   旧: 「THIS IS / YOUR ERA / THE AGE OF / AI」の4行バラバラ
+   新: 「THIS IS YOUR ERA / THE AGE OF AI」の2行（色付き語はインライン保持）
+   ========================================================================= */
+.recruit-fv__line {
+  display: block;
+  white-space: nowrap;
+}
+.recruit-fv__line + .recruit-fv__line {
+  margin-top: 0.12em;
+}
+.recruit-fv__ttl .recruit-fv__red,
+.recruit-fv__ttl .recruit-fv__blue {
+  display: inline;
+}
+
+/* 最小幅でも各行が1行に収まるようサイズ微調整 */
+@media screen and (max-width: 420px) {
+  .recruit-fv__ttl {
+    font-size: 3.2rem;
+  }
+}
+
+/* =========================================================================
+   月収例カード（旧 recruit-data4.jpg を HTML/CSS 化）
+   数字が変わりやすいので画像をやめてテキスト描画に。色・枠線は元画像を再現。
+   画像カードと同じ縦横比（1416:792）・枠線(#EAEAEA)・白背景。
+   ========================================================================= */
+.paycard {
+  container-type: inline-size;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1416 / 792;
+  background: #fff;
+  border: 1px solid #EAEAEA;
+  padding: 6cqw 5.5cqw 4.5cqw;
+  display: flex;
+  flex-direction: column;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+.paycard__label {
+  color: #9699A2;
+  font-size: 3.3cqw;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  margin: 0;
+}
+.paycard__figure {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.6cqw;
+  margin-top: auto;
+}
+.paycard__num {
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-size: 18cqw;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  background: linear-gradient(to right, #EF2C8A, #9B1AE8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+/* ※ を円の真上に積み、ブロック下端を数字の下端に揃える */
+.paycard__yenwrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1;
+}
+.paycard__star {
+  font-size: 2.8cqw;
+  color: #111;
+  line-height: 1;
+  margin-bottom: 0.4cqw;
+}
+.paycard__yen {
+  font-size: 8cqw;
+  font-weight: 900;
+  color: #111;
+  line-height: 0.8;
+}
+.paycard__bar {
+  width: 100%;
+  margin: 2.6cqw 0 0;
+  padding: 2.4cqw 0;
+  text-align: center;
+  background: linear-gradient(to right, #EF2C8A, #9B1AE8);
+  color: #fff;
+  font-weight: 900;
+  font-size: 5.6cqw;
+  letter-spacing: 0.08em;
+}
+.paycard__foot {
+  margin: auto 0 0;
+  color: #171717;
+  font-size: 2.7cqw;
+  font-weight: 500;
+}
+
+/* =========================================================================
+   DATA カード（男女比/年齢構成比/未経験スタート）も画像→HTML/SVG 化
+   月収例と同じ枠・縦横比。数値は Data.tsx の定数/配列で管理。
+   ========================================================================= */
+.datacard {
+  container-type: inline-size;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1416 / 792;
+  background: #fff;
+  border: 1px solid #EAEAEA;
+  padding: 6cqw 5.5cqw 4.5cqw;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+.datacard__title {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  color: #9699A2;
+  font-size: 3.3cqw;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+}
+.datacard__caption {
+  position: relative;
+  z-index: 2;
+  margin: auto 0 0;
+  text-align: center;
+  color: #1a1a1a;
+  font-size: 4.4cqw;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ① 社員 : 学生 比 -------------------------------------------------------- */
+.scard__bg {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: auto;
+  z-index: 0;
+}
+.scard__cols {
+  position: absolute;
+  inset: 0 5.5cqw;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 30% 40% 30%;
+  align-items: flex-end;
+  padding-top: 17cqw;
+  padding-bottom: 17cqw;
+}
+.scard__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+}
+.scard__col:first-child {
+  grid-column: 1;
+}
+.scard__col:last-child {
+  grid-column: 3;
+}
+.scard__cap {
+  font-size: 3.8cqw;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.4cqw;
+}
+.scard__num {
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  display: flex;
+  align-items: flex-end;
+  line-height: 1;
+  padding-bottom: 0.06em;
+  font-size: 21cqw;
+  font-weight: 900;
+  background: linear-gradient(to right, #EF2C8A, #9B1AE8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.scard__pct {
+  font-size: 7.5cqw;
+  margin-bottom: 0.6cqw;
+}
+.scard .datacard__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9cqw;
+  margin: 0;
+}
+
+/* ② 年齢構成比（円グラフ） ---------------------------------------------- */
+/* 円グラフは元画像と同等の大きさ（直径≒カード幅の34%）で中央に */
+.agecard {
+  padding-bottom: 3cqw;
+}
+.agecard__chart {
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+.agecard__svg {
+  display: block;
+  width: 44cqw;
+  height: auto;
+  max-width: 100%;
+  overflow: visible;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+.agecard .datacard__caption {
+  margin: 0;
+}
+.agecard__cat { font-size: 3.2px; font-weight: 700; }
+.agecard__val { font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif; font-size: 10px; font-weight: 900; }
+.agecard__pct { font-family: "sofia-pro", sans-serif; font-size: 5px; font-weight: 900; }
+.agecard__cocat { font-size: 3px; font-weight: 500; }
+.agecard__coval { font-family: "sofia-pro", sans-serif; font-size: 5px; font-weight: 900; }
+.agecard__copct { font-family: "sofia-pro", sans-serif; font-size: 2.6px; font-weight: 900; }
+
+/* ③ 未経験スタートの割合 ------------------------------------------------- */
+.expcard__bg {
+  position: absolute;
+  top: 48%;
+  right: 14%;
+  transform: translateY(-50%);
+  width: 30%;
+  height: auto;
+  z-index: 0;
+}
+.expcard__figure {
+  position: relative;
+  z-index: 2;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+.expcard__num {
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  display: flex;
+  align-items: flex-end;
+  line-height: 1;
+  padding-bottom: 0.06em;
+  font-size: 27cqw;
+  font-weight: 900;
+  background: linear-gradient(to right, #EF2C8A, #9B1AE8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.expcard__pct {
+  font-size: 9cqw;
+  margin-bottom: 1cqw;
+}
+
+/* 採用ページ Contact 背景 ------------------------------------------------- */
+.contact.contact--recruit {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48)),
+    url(../img/contact-recruit-bg.jpg) !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 58%;
+}
+
+@media screen and (max-width: 768px) {
+  .contact.contact--recruit {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52)),
+      url(../img/contact-recruit-bg.jpg) !important;
+    background-position: center center;
+  }
+}
+
+/* =========================================================================
+   SPIRIT ― 「おもしろきこともなき仕事をおもしろく」
+   幕末の志士・高杉晋作が詠んだとされる辞世の句のオマージュ。
+   見出しは明朝(serif)で句として、強調・ラベルはブランドのピンク→紫グラデ。
+   写真は datacard と同じ白枠(1px #EAEAEA)で 3 枚並べる。
+   ========================================================================= */
+.spirit {
+  padding: 180px 0 160px;
+  background: linear-gradient(to bottom, #FFFFFF 0%, #F6F6F6 100%);
+  overflow: hidden;
+}
+.spirit__wrap {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.spirit__head {
+  text-align: center;
+}
+.spirit__label {
+  display: inline-block;
+  font-family: "sofia-pro", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 1.8rem;
+  letter-spacing: 0.18em;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.spirit__line {
+  width: 65px;
+  height: 1px;
+  margin: 14px auto 30px;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+}
+.spirit__ttl {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 5.2rem;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  color: #17171A;
+  text-wrap: balance;
+}
+.spirit__ttl em {
+  font-style: normal;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.spirit__lead {
+  margin: 28px auto 0;
+  max-width: 760px;
+  text-align: left;
+  font-size: 1.7rem;
+  line-height: 2.3;
+  letter-spacing: 0.04em;
+  color: #17171A;
+  text-wrap: pretty;
+  word-break: auto-phrase;
+  line-break: strict;
+}
+.spirit__lead br {
+  display: block;
+  content: "";
+  margin-top: 0.9em;
+}
+.spirit__creed {
+  margin: 40px auto 0;
+  max-width: 720px;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 2.1;
+  letter-spacing: 0.06em;
+  color: #17171A;
+  text-wrap: pretty;
+  word-break: auto-phrase;
+  line-break: strict;
+}
+.spirit__creed br {
+  display: block;
+  content: "";
+  margin-top: 0.7em;
+}
+.spirit__bridge {
+  margin: 56px auto 0;
+  max-width: 720px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.9;
+  letter-spacing: 0.06em;
+  color: #17171A;
+  text-wrap: balance;
+  word-break: auto-phrase;
+}
+.spirit__gallery {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.spirit__photo {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #EAEAEA;
+  background: #fff;
+}
+.spirit__photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform .6s ease;
+}
+.spirit__photo:hover img {
+  transform: scale(1.04);
+}
+.spirit__cap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 8px 16px;
+  font-family: "sofia-pro", sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.16em;
+  color: #fff;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+}
+.spirit__action {
+  margin-top: 56px;
+  text-align: center;
+}
+.spirit__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 40px;
+  border-radius: 100px;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  color: #fff;
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.spirit__more:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(152, 25, 235, 0.28);
+}
+.spirit__more-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 100%;
+  background: #fff;
+  color: #9819EB;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .spirit {
+    padding: 90px 0 80px;
+  }
+  .spirit__wrap {
+    width: 86%;
+  }
+  .spirit__action {
+    margin-top: 40px;
+  }
+  .spirit__more {
+    padding: 15px 30px;
+    font-size: 1.4rem;
+  }
+  .spirit__label {
+    font-size: 1.5rem;
+  }
+  .spirit__line {
+    margin: 12px auto 24px;
+  }
+  .spirit__ttl {
+    font-size: 2.9rem;
+    line-height: 1.9;
+    letter-spacing: 0.08em;
+  }
+  .spirit__lead {
+    margin-top: 22px;
+    font-size: 1.5rem;
+    line-height: 2.15;
+    text-align: center;
+  }
+  .spirit__creed {
+    margin-top: 28px;
+    font-size: 1.6rem;
+    line-height: 1.95;
+    text-align: center;
+  }
+  .spirit__bridge {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    line-height: 1.85;
+    text-align: center;
+  }
+  /* 水平の流れを保つため、縦積みではなく横スクロールの帯にする */
+  .spirit__gallery {
+    margin-top: 24px;
+    display: flex;
+    grid-template-columns: none;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+  .spirit__gallery::-webkit-scrollbar {
+    display: none;
+  }
+  .spirit__photo {
+    flex: 0 0 80%;
+    scroll-snap-align: center;
+  }
+  .spirit__photo img {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* =========================================================================
+   REVOLUTION 詳細ページ (revolution.html)
+   採用ページと同じフォント(Zen Kaku Gothic New / sofia-pro)・配色・ピル・
+   グラデ・白枠カードで構成。古代→現代→AI を縦スクロールの年表で見せ、
+   「AI革命は何が違うのか」「この先どうなるのか」を論理で諭す。
+   ========================================================================= */
+.rev {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  color: #17171A;
+}
+.rev__inner {
+  width: 90%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.rev__head {
+  text-align: center;
+}
+
+/* ヒーロー */
+.rev-fv {
+  padding: 200px 0 100px;
+  background: linear-gradient(160deg, #FFFFFF 0%, #F6F6F6 100%);
+  text-align: center;
+}
+.rev-fv__ttl {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 900;
+  font-size: 5.6rem;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+}
+.rev-fv__ttl em {
+  font-style: normal;
+  white-space: nowrap;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.rev-fv__lead {
+  margin: 26px auto 0;
+  max-width: 760px;
+  font-size: 1.7rem;
+  line-height: 2.3;
+  letter-spacing: 0.06em;
+}
+
+/* セクション共通 */
+.rev-sec {
+  padding: 120px 0;
+}
+.rev-sec--tint {
+  background: linear-gradient(to bottom, #FFFFFF 0%, #F3EF98 100%);
+}
+.rev-sec__ttl {
+  text-align: center;
+  font-weight: 900;
+  font-size: 3.6rem;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.rev-sec__ttl em {
+  font-style: normal;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.rev-sec__sub {
+  text-align: center;
+  font-size: 1.6rem;
+  line-height: 2;
+  color: #555;
+  margin-bottom: 56px;
+}
+
+/* 年表（縦スクロール） */
+.rev-tl {
+  position: relative;
+  width: 90%;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.rev-tl::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(to bottom, #2672F7, #EF2C8A 70%, #9819EB);
+}
+.rev-tl__item {
+  position: relative;
+  padding-left: 56px;
+  padding-bottom: 46px;
+}
+.rev-tl__item:last-child {
+  padding-bottom: 0;
+}
+.rev-tl__node {
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background: #fff;
+  border: 3px solid #9819EB;
+  z-index: 1;
+}
+.rev-tl__era {
+  display: inline-block;
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  color: #9699A2;
+}
+.rev-tl__name {
+  margin-top: 4px;
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1.4;
+}
+.rev-tl__ext {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 5px 16px;
+  border-radius: 100px;
+  background: #F3EF98;
+  color: #17171A;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.rev-tl__desc {
+  margin-top: 16px;
+  font-size: 1.6rem;
+  line-height: 1.95;
+}
+.rev-tl__item--ai .rev-tl__node {
+  width: 26px;
+  height: 26px;
+  left: 1px;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  border: none;
+  box-shadow: 0 0 0 6px rgba(152, 25, 235, 0.15);
+}
+.rev-tl__item--ai .rev-tl__name {
+  font-size: 3.2rem;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.rev-tl__item--ai .rev-tl__ext {
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  color: #fff;
+}
+
+/* 何が違うのか（3カード） */
+.rev-diff__grid {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.rev-diff__card {
+  background: #fff;
+  border: 1px solid #EAEAEA;
+  padding: 44px 32px;
+  display: flex;
+  flex-direction: column;
+}
+.rev-diff__num {
+  font-family: "sofia-pro", sans-serif;
+  font-weight: 900;
+  font-size: 4.4rem;
+  line-height: 1;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.rev-diff__h {
+  margin-top: 18px;
+  font-size: 2.1rem;
+  font-weight: 900;
+  line-height: 1.5;
+}
+.rev-diff__p {
+  margin-top: 14px;
+  font-size: 1.5rem;
+  line-height: 1.95;
+  color: #333;
+}
+
+/* この先どうなるのか（リスト） */
+.rev-future__list {
+  width: 90%;
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.rev-future__item {
+  position: relative;
+  background: #fff;
+  border: 1px solid #EAEAEA;
+  border-left: 4px solid #9819EB;
+  padding: 28px 32px;
+}
+.rev-future__h {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.5;
+}
+.rev-future__p {
+  margin-top: 10px;
+  font-size: 1.5rem;
+  line-height: 1.9;
+  color: #333;
+}
+.rev-future__close {
+  text-align: center;
+  margin: 56px auto 0;
+  max-width: 820px;
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+}
+.rev-future__close em {
+  font-style: normal;
+  background: linear-gradient(to right, #EF2C8A, #9819EB);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* クロージングCTA */
+.rev-cta {
+  padding: 120px 0;
+  text-align: center;
+  background: linear-gradient(120deg, #EF2C8A 0%, #9819EB 100%);
+}
+.rev-cta__ttl {
+  color: #fff;
+  font-size: 3.4rem;
+  font-weight: 900;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+}
+.rev-cta__txt {
+  margin: 22px auto 0;
+  max-width: 640px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.6rem;
+  line-height: 2;
+}
+.rev-cta__btns {
+  margin-top: 44px;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.rev-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 44px;
+  border-radius: 100px;
+  font-family: "sofia-pro", "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.06em;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.rev-cta__btn--primary {
+  background: #fff;
+  color: #9819EB;
+}
+.rev-cta__btn--ghost {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+.rev-cta__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .rev-fv {
+    padding: 150px 0 70px;
+  }
+  .rev-fv__ttl {
+    font-size: 2rem;
+    line-height: 1.7;
+    letter-spacing: 0;
+    text-wrap: pretty;
+  }
+  .rev-fv__lead {
+    font-size: 1.5rem;
+    line-height: 2.1;
+    text-align: left;
+  }
+  .rev-sec {
+    padding: 80px 0;
+  }
+  .rev-sec__ttl {
+    font-size: 2.6rem;
+  }
+  .rev-sec__sub {
+    font-size: 1.45rem;
+    margin-bottom: 40px;
+  }
+  .rev-tl__name {
+    font-size: 2.1rem;
+  }
+  .rev-tl__item--ai .rev-tl__name {
+    font-size: 2.4rem;
+  }
+  .rev-tl__desc {
+    font-size: 1.45rem;
+  }
+  .rev-diff__grid {
+    grid-template-columns: 1fr;
+  }
+  .rev-diff__card {
+    padding: 32px 26px;
+  }
+  .rev-future__item {
+    padding: 22px 24px;
+  }
+  .rev-future__h {
+    font-size: 1.7rem;
+  }
+  .rev-future__close {
+    font-size: 1.8rem;
+  }
+  .rev-cta {
+    padding: 80px 0;
+  }
+  .rev-cta__ttl {
+    font-size: 2.5rem;
+  }
+  .rev-cta__btn {
+    padding: 15px 34px;
+    font-size: 1.4rem;
+  }
+}
+
+/* REVOLUTION ページの本文も日本語の文節単位で自然に改行する */
+.rev-fv__lead,
+.rev-sec__sub,
+.rev-tl__desc,
+.rev-diff__p,
+.rev-future__p,
+.rev-cta__txt {
+  text-wrap: pretty;
+  word-break: auto-phrase;
+  line-break: strict;
+}
+.rev-fv__ttl,
+.rev-sec__ttl,
+.rev-tl__name,
+.rev-diff__h,
+.rev-future__h,
+.rev-future__close,
+.rev-cta__ttl {
+  text-wrap: balance;
+  word-break: auto-phrase;
+}

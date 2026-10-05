@@ -10,7 +10,7 @@ function eventTimeRange(event){
 }
 const pages={overview:'ダッシュボード',events:'イベント管理',reservations:'予約・参加管理',customers:'顧客管理',delivery:'メッセージ配信',memberships:'チケット',settings:'設定'};
 const cardNames={tournament:'トナメチケット',reward:'報酬チケット'};
-const paths=['M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z','M5 4h14v17H5z M8 2v4 M16 2v4 M5 9h14','M5 3h14v18H5z M8 8h8 M8 12h8 M8 16h5','M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3a4 4 0 0 1 0 8','M3 5h18v14H3z M3 5l9 7 9-7','M3 6h18v12H3z M7 10h4 M7 14h2','M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8 M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M5 19l2-2 M17 7l2-2'];
+const paths=['M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z','M5 4h14v17H5z M8 2v4 M16 2v4 M5 9h14','M5 3h14v18H5z M8 8h8 M8 12h8 M8 16h5','M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3a4 4 0 0 1 0 8','M3 5h18v14H3z M3 5l9 7 9-7','M3 6h18v12H3z M7 10h4 M7 14h2','M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8 M12 2v3 M12 19v3 M2 12h3 M19 12h3 M5 5l2 2 M17 17l2 2 M5 19l2-2 M17 7l2-2','M5 5h.01 M12 5h.01 M19 5h.01 M5 12h.01 M12 12h.01 M19 12h.01 M5 19h.01 M12 19h.01 M19 19h.01'];
 const icon=i=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[i]||paths[6]}"/></svg>`;
 let data=null,page='overview',query='',customerTag='',messagePreview=null,busy=false,deliverySection='chat',automationSection='confirmation';
 const listPages={customers:1,reservationUpcoming:1,reservationPast:1,reservationParticipants:1,sources:1,cardRecords:1};
@@ -80,7 +80,15 @@ function dashboardPage(upcoming){
     `<section class="panel dashboard-events"><div class="panel-head"><h2>直近の開催予定</h2><a href="#events" class="muted">すべて見る →</a></div>${rows||'<div class="dashboard-empty">開催予定はありません。<a class="btn" href="#events">イベントを作成</a></div>'}</section>`+
     `<section class="dashboard-metrics" aria-label="今月の状況"><div class="dashboard-metric"><span class="dashboard-metric-label">今月のチケット販売</span>${dashboardTicketSales()}</div><div class="dashboard-metric"><span class="dashboard-metric-label">今月のLINE友だち追加</span><div id="dashboard-line-followers">${dashboardFollowers()}</div></div></section>`;
 }
-function render(){hideEventPreview();page=location.hash.slice(1).split('?')[0]||'overview';if(page==='sources'){page='settings';history.replaceState(null,'','#settings');}if(!pages[page])page='overview';$('#nav').innerHTML=Object.entries(pages).map(([key,label],i)=>`<a href="#${key}" class="${page===key?'active':''}" ${page===key?'aria-current="page"':''}>${icon(i)}${label}</a>`).join('');const upcoming=data.events.filter(e=>new Date(e.startsAt)>=new Date()).sort((a,b)=>new Date(a.startsAt)-new Date(b.startsAt));let html='';
+function navLink(key,label,i,active=page===key){return `<a href="#${key}" class="${active?'active':''}" ${active?'aria-current="page"':''}>${icon(i)}<span>${label}</span></a>`;}
+function renderMobileNav(){
+  if(!$('#mobile-nav-links')||!$('#mobile-more-toggle')||!$('#mobile-more-links'))return;
+  const primary=['overview','events','reservations','customers'],secondary=['delivery','memberships','settings'],moreActive=secondary.includes(page);
+  $('#mobile-nav-links').innerHTML=primary.map(key=>navLink(key,({overview:'ホーム',events:'イベント',reservations:'予約',customers:'顧客'})[key],Object.keys(pages).indexOf(key))).join('');
+  const more=$('#mobile-more-toggle');more.innerHTML=`${icon(7)}<span>その他</span>`;more.classList.toggle('active',moreActive);if(moreActive)more.setAttribute('aria-current','page');else more.removeAttribute('aria-current');
+  $('#mobile-more-links').innerHTML=secondary.map(key=>navLink(key,pages[key],Object.keys(pages).indexOf(key),page===key)).join('');
+}
+function render(){hideEventPreview();page=location.hash.slice(1).split('?')[0]||'overview';if(page==='sources'){page='settings';history.replaceState(null,'','#settings');}if(!pages[page])page='overview';$('#nav').innerHTML=Object.entries(pages).map(([key,label],i)=>navLink(key,label,i)).join('');renderMobileNav();const upcoming=data.events.filter(e=>new Date(e.startsAt)>=new Date()).sort((a,b)=>new Date(a.startsAt)-new Date(b.startsAt));let html='';
 if(page==='overview')html=dashboardPage(upcoming);
 if(page==='events')html=eventsManagementPage();
 if(page==='reservations')html=reservationsPage();
@@ -157,6 +165,15 @@ function bindCustomerDetailTabs(){
 
 function bindDialog(){document.querySelectorAll('[data-action="close-dialog"]').forEach(b=>b.onclick=()=>$('#dialog').close());}
 function bind(){document.querySelectorAll('[data-action="sample"]').forEach(b=>b.onclick=()=>mutate('/api/admin/sample',{},b));document.querySelectorAll('[data-edit-event]').forEach(b=>b.onclick=()=>editEvent(b.dataset.editEvent));document.querySelectorAll('[data-customer]').forEach(b=>b.onclick=()=>customerDetail(b.dataset.customer));$('[data-action="new-event"]')?.addEventListener('click',()=>editEvent());bindCustomerSearch();bindPagination();bindDeliveryTabs();bindDelivery();bindChat();bindEventCalendar();bindCardSales();$('#customer-tag')?.addEventListener('change',e=>{customerTag=e.target.value;listPages.customers=1;render();});$('#automation-form')?.addEventListener('submit',ev=>{ev.preventDefault();const f=new FormData(ev.target),automation={};for(const k of ['confirmation','reminder','followup'])automation[k]={enabled:true,text:f.get(k+'-text')};automation.reminder.hour=Number(f.get('reminder-hour'));automation.followup.delayHours=Number(f.get('followup-delay'));automation.followup.courseText=f.get('followup-course');automation.followup.membershipText=f.get('followup-membership');mutate('/api/admin/automation',{automation},ev.submitter);});}
+function bindMobileNavigation(){
+  const toggle=$('#mobile-more-toggle'),dialog=$('#mobile-more-dialog');
+  if(!toggle||!dialog||!$('#mobile-more-links'))return;
+  toggle.addEventListener('click',()=>{if(dialog.open)dialog.close();else dialog.showModal();toggle.setAttribute('aria-expanded',String(dialog.open));});
+  dialog.addEventListener('close',()=>toggle.setAttribute('aria-expanded','false'));
+  dialog.addEventListener('click',event=>{if(event.target.closest('.mobile-more-close'))dialog.close();});
+  $('#mobile-more-links').addEventListener('click',event=>{if(event.target.closest('a'))dialog.close();});
+}
+bindMobileNavigation();
 window.addEventListener('hashchange',()=>{query='';render();});load().catch(e=>{$('#main').innerHTML=`<div class="empty"><strong>管理データを読み込めません</strong>${esc(e.message)}<br><button class="btn" id="retry">再読み込み</button></div>`;$('#retry').onclick=()=>location.reload();});
 function tagSelect(id,value=''){const tags=[...new Set(data.customers.flatMap(c=>c.tags||[]))].sort();return `<select id="${id}" aria-label="タグで絞り込み"><option value="">すべての顧客（${data.customers.length}名）</option>${tags.map(t=>`<option value="${esc(t)}" ${value===t?'selected':''}>${esc(t)}（${data.customers.filter(c=>(c.tags||[]).includes(t)).length}名）</option>`).join('')}</select>`;}
 function deliveryPage(){
